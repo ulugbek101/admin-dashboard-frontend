@@ -1,0 +1,18 @@
+.form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: var(--card-padding);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--card-border-radius);
+    background: var(--color-white);
+}
+
+.formTitle {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--color-dark);
+    text-align: center;
+}
