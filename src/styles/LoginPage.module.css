@@ -16,3 +16,10 @@
     color: var(--color-dark);
     text-align: center;
 }
+
+.errorText {
+    color: red;
+    text-align: center;
+    font-weight: 600;
+    margin: 10px 0 0 0;
+}
