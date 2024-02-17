@@ -1,9 +1,9 @@
 import {useState} from 'react';
+export const BASE_URL = 'http://127.0.0.1:8000/api/v1'
 
 const useFetch = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const BASE_URL = 'http://127.0.0.1:8000/api/v1/'
 
     const sendHttpRequest = async (url, options) => {
         try {

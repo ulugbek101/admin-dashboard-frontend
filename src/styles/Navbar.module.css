@@ -1,0 +1,75 @@
+.aside {
+	height: 100vh;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-white);
+	box-shadow: var(--box-shadow);
+	border-radius: 15px;
+	height: 88vh;
+	position: relative;
+	top: 1.5rem;
+	transition: all 0.3s ease;
+}
+
+.sidebar:hover {
+	box-shadow: none;
+}
+
+.sidebar a {
+	display: flex;
+	align-items: center;
+	color: var(--color-info-dark);
+	height: 3.7rem;
+	gap: 1rem;
+	position: relative;
+	margin-left: 2rem;
+	transition: all 0.3s ease;
+	font-size: 0.87rem;
+	font-weight: 500;
+}
+
+.sidebar a svg {
+	font-size: 1.4rem;
+	transition: all 0.3s ease;
+}
+
+.sidebar a:last-child {
+	position: absolute;
+	bottom: 2rem;
+	width: 100%;
+}
+
+.sidebar a.active {
+	width: 100%;
+	color: var(--color-primary);
+	background-color: var(--color-light);
+	margin-left: 0;
+}
+
+.sidebar a.active::before {
+	content: '';
+	width: 6px;
+	height: 18px;
+	background-color: var(--color-primary);
+}
+
+.sidebar a.active svg {
+	color: var(--color-primary);
+	margin-left: calc(1rem - 3px);
+}
+
+.sidebar a:first-child.active {
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+.sidebar a:hover {
+	color: var(--color-primary);
+}
+
+.sidebar a:hover svg {
+	margin-left: 0.6rem;
+}
