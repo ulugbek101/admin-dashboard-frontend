@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Pupils() {
 	return (
 		<div>

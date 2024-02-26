@@ -1,19 +1,19 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authContext } from '../context/AuthContext.jsx'
-import useFetch from '../hooks/useFetch.jsx'
+import axiosInstance from '../hooks/useAxios.jsx'
 import styles from '../styles/LoginPage.module.css'
 
 function LoginPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState('')
 
 	const emailRef = useRef()
 	const passwordRef = useRef()
 
-	const { isLoading, error, sendHttpRequest } = useFetch()
 	const { loginUser, user } = useContext(authContext)
-	const [authError, setAuthError] = useState(null)
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -26,27 +26,26 @@ function LoginPage() {
 		emailRef.current.focus()
 	}, [])
 
-	const handleSubmit = async e => {
-		e.preventDefault()
+	const handleSubmit = async event => {
+		event.preventDefault()
+		setErrorMessage('')
 
-		const result = await sendHttpRequest('/profiles/token/', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				email: e.target.email.value,
-				password: e.target.password.value,
-			}),
-		})
-
-		if (result.status === 401) {
-			setAuthError('Email yoki Parol xato terilgan')
-			return
+		try {
+			setIsLoading(true)
+			const response = await axiosInstance.post('/profiles/token/', {
+				email: event.target.email.value,
+				password: event.target.password.value,
+			})
+			loginUser(response.data)
+		} catch (error) {
+			if (error.response?.status === 401) {
+				setErrorMessage('E-mail manzil yoki Parol xato')
+			} else {
+				setErrorMessage('Xatolik yuz berdi')
+			}
+		} finally {
+			setIsLoading(false)
 		}
-
-		setAuthError(null)
-		loginUser(result)
 	}
 
 	return (
@@ -74,6 +73,7 @@ function LoginPage() {
 					ref={passwordRef}
 					onChange={e => setPassword(e.target.value)}
 					value={password}
+					autoComplete='off'
 					required
 				/>
 			</div>
@@ -106,7 +106,7 @@ function LoginPage() {
 					</div>
 				)}
 			</button>
-			{authError && <p className={styles.errorText}>{authError}</p>}
+			{errorMessage && <p className={styles.errorText}>{errorMessage}</p>}
 		</form>
 	)
 }

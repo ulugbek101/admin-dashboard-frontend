@@ -10,60 +10,64 @@ import { MdGroups, MdOutlineInsights, MdRequestQuote } from 'react-icons/md'
 import { authContext } from '../context/AuthContext'
 
 function Navbar() {
-	const { logoutUser } = useContext(authContext)
+	const { user, logoutUser } = useContext(authContext)
+
+	let routes = [
+		{
+			path: '/subjects',
+			icon: <FaBookmark />,
+			text: 'Fanlar',
+		},
+		{
+			path: '/groups',
+			icon: <MdGroups />,
+			text: 'Guruhlar',
+		},
+		{
+			path: '/teachers',
+			icon: <FaChalkboardTeacher />,
+			text: "O'qituvchilar",
+		},
+		{
+			path: '/pupils',
+			icon: <IoSchoolSharp />,
+			text: "O'quvchilar",
+		},
+		{
+			path: '/expenses',
+			icon: <MdRequestQuote />,
+			text: 'Chiqimlar',
+		},
+		{
+			path: '/settings',
+			icon: <IoSettings />,
+			text: 'Sozlamalar',
+		},
+		{
+			path: '/',
+			icon: <MdOutlineInsights />,
+			text: 'Analitika',
+		},
+	]
+
+	if (user?.status !== 'Superadmin') {
+		routes.pop()
+	}
 
 	return (
 		<aside className={styles.aside}>
 			<div className={styles.sidebar}>
-				<NavLink
-					to='/subjects'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<FaBookmark />
-					Fanlar
-				</NavLink>
-				<NavLink
-					to='/groups'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<MdGroups />
-					Guruhlar
-				</NavLink>
-				<NavLink
-					to='/teachers'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<FaChalkboardTeacher />
-					O'qituvchilar
-				</NavLink>
-				<NavLink
-					to='pupils'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<IoSchoolSharp />
-					O'quvchilar
-				</NavLink>
-				<NavLink
-					to='/'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<MdOutlineInsights />
-					Analitika
-				</NavLink>
-				<NavLink
-					to='expenses'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<MdRequestQuote />
-					Chiqimlar
-				</NavLink>
-				<NavLink
-					to='settings'
-					className={({ isActive }) => (isActive ? styles.active : '')}
-				>
-					<IoSettings />
-					Sozlamalar
-				</NavLink>
+				{routes.map(route => (
+					<NavLink
+						key={route.path}
+						to={route.path}
+						className={({ isActive }) => (isActive ? styles.active : '')}
+					>
+						{route.icon}
+						{route.text}
+					</NavLink>
+				))}
+
 				<NavLink to='' onClick={logoutUser}>
 					<LuLogOut />
 					Chiqish

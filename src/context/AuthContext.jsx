@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 export const authContext = createContext({})
 export const getStoredTokens = () => {
@@ -12,10 +12,16 @@ const AuthContextProvider = props => {
 	const [authTokens, setAuthTokens] = useState(() => getStoredTokens())
 	const [authError, setAuthError] = useState(null)
 
-	const loginUser = result => {
-		setAuthTokens(result)
-		setUser(jwtDecode(result.access))
-		localStorage.setItem('authTokens', JSON.stringify(result))
+	useEffect(() => {
+		if (user) {
+			loginUser(authTokens)
+		}
+	}, [])
+
+	const loginUser = responseData => {
+		setAuthTokens(responseData)
+		setUser(jwtDecode(responseData.access))
+		localStorage.setItem('authTokens', JSON.stringify(responseData))
 	}
 
 	const logoutUser = () => {
@@ -30,6 +36,7 @@ const AuthContextProvider = props => {
 		authError: authError,
 		loginUser: loginUser,
 		logoutUser: logoutUser,
+		name: 'Alex',
 	}
 
 	return (

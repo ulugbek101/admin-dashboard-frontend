@@ -20,7 +20,9 @@ function RootLayout() {
 	return (
 		<div className={styles.container}>
 			<Navbar />
-			<Outlet />
+			<main className={styles.main}>
+				<Outlet />
+			</main>
 			<RightSection />
 		</div>
 	)
