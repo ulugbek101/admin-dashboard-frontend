@@ -1,25 +1,19 @@
-.form {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    padding: var(--card-padding);
-    box-shadow: var(--box-shadow);
-    border-radius: var(--card-border-radius);
-    background: var(--color-white);
+.formWrapper {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.formTitle {
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--color-dark);
-    text-align: center;
+.formWrapper form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
-.errorText {
-    color: red;
-    text-align: center;
-    font-weight: 600;
-    margin: 10px 0 0 0;
+.formWrapper button {
+	font-weight: 500;
 }
