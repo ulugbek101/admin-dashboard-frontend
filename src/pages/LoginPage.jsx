@@ -1,15 +1,30 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import logo from '../assets/logo.png'
+import { authContext } from '../context/authContext'
 import inputStyle from '../styles/Input.module.css'
 import styles from '../styles/LoginPage.module.css'
 
 const LoginPage = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState('')
+	const { login } = useContext(authContext)
+	const navigate = useNavigate()
+	const { user, authMessage } = useContext(authContext)
+
+	useEffect(() => {
+		if (user) {
+			navigate('/')
+		}
+	}, [user, navigate])
 
 	const handleLogin = event => {
 		event.preventDefault()
 		setLoading(true)
+		login(event.target.email.value, event.target.password.value)
+		setLoading(false)
+		toast(authMessage)
 	}
 
 	return (

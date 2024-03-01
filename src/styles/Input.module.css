@@ -28,7 +28,7 @@
 /* Focus effect */
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label {
-	top: 8px;
+	top: 10px;
 	font-size: 10px;
 	color: #4285f4; /* Google's blue color for focus */
 }
