@@ -1,6 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
 import { createContext, useState } from 'react'
-import { toast } from 'react-toastify'
 import axiosInstance from '../axios/axios'
 
 export const getStoredTokens = () => {
@@ -11,12 +10,12 @@ export const getStoredTokens = () => {
 export const authContext = createContext()
 const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = useState(() =>
-		getStoredTokens() ? jwtDecode(getStoredTokens()) : null
+		getStoredTokens() ? jwtDecode(getStoredTokens().access) : null
 	)
 	const [authTokens, setAuthTokens] = useState(() =>
 		getStoredTokens() ? getStoredTokens : null
 	)
-	const [authMessage, setAuthMessage] = useState(null)
+	const [authError, setAuthError] = useState(null)
 
 	const login = async (email, password) => {
 		try {
@@ -25,35 +24,31 @@ const AuthContextProvider = ({ children }) => {
 				password,
 			})
 
-			setUser(prevUser => {
-				const decodedUser = jwtDecode(response.data.access)
-				setAuthMessage({
-					message: `Assalomu alaykum, ${decodedUser?.first_name} ${decodedUser?.last_name} 👋`,
-					type: 'success',
-				})
-				return decodedUser
-			})
+			setUser(prevUser => jwtDecode(response.data.access))
 			setAuthTokens(response.data)
-			toast(authMessage.message)
+			localStorage.setItem('authTokens', JSON.stringify(response.data))
+			setAuthError(null)
 		} catch (error) {
-			console.log('ERROR:', error)
+			switch (error.response?.status) {
+				case 401:
+					setAuthError('Foydalanuvchi topilmadi')
+					break
+				default:
+					setAuthError('Xatolik, internet sozlamalaringizni tekshiring')
+			}
 		}
 	}
 
 	const logout = () => {
-		setUser(prevUser => {
-			setAuthMessage({ message: 'Tizimdan chiqdingiz', type: 'success' })
-			return null
-		})
+		setUser(null)
 		setAuthTokens(null)
-		setAuthMessage({ message: 'Tizimdan chiqdingiz', type: 'success' })
+		localStorage.removeItem('authTokens')
 	}
 
 	const defaultValue = {
 		user,
 		authTokens,
-		authMessage,
-		setAuthMessage,
+		authError,
 		login,
 		logout,
 	}

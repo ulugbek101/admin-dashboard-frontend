@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { authContext } from '../context/authContext'
 import FlashMessage from '../utils/FlashMessage'
 
@@ -15,7 +14,6 @@ export const RootLayout = () => {
 	}, [user, navigate])
 
 	const handleLogout = () => {
-		toast('Tizimdan chiqdingiz')
 		logout()
 	}
 

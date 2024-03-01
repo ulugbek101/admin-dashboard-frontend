@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import logo from '../assets/logo.png'
 import { authContext } from '../context/authContext'
 import inputStyle from '../styles/Input.module.css'
@@ -8,23 +7,27 @@ import styles from '../styles/LoginPage.module.css'
 
 const LoginPage = () => {
 	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState('')
-	const { login } = useContext(authContext)
+	const { login, authError } = useContext(authContext)
+	const [buttonIsDisabled, setButtonIsDisabled] = useState(true)
 	const navigate = useNavigate()
-	const { user, authMessage } = useContext(authContext)
+	const { user } = useContext(authContext)
+	const [email, setEmail] = useState()
+	const [password, setPassword] = useState()
 
 	useEffect(() => {
-		if (user) {
-			navigate('/')
-		}
+		if (user) navigate('/')
 	}, [user, navigate])
 
-	const handleLogin = event => {
-		event.preventDefault()
+	useEffect(() => {
+		setButtonIsDisabled(!email && !password)
+	}, [email, password])
+
+	const handleLogin = async e => {
+		e.preventDefault()
 		setLoading(true)
-		login(event.target.email.value, event.target.password.value)
+		console.log(email, password)
+		login(email, password)
 		setLoading(false)
-		toast(authMessage)
 	}
 
 	return (
@@ -36,11 +39,13 @@ const LoginPage = () => {
 				{/* </div> */}
 				<div className={inputStyle.inputContainer}>
 					<input
+						onChange={e => setEmail(e.target.value)}
 						className={inputStyle.input}
 						type='email'
 						name='email'
 						id='email'
 						placeholder=''
+						required
 					/>
 					<label htmlFor='password' className={inputStyle.label}>
 						Email
@@ -48,24 +53,27 @@ const LoginPage = () => {
 				</div>
 				<div className={inputStyle.inputContainer}>
 					<input
+						onChange={e => setPassword(e.target.value)}
 						className={inputStyle.input}
 						type='password'
 						name='password'
 						id='password'
 						placeholder=''
+						required
 					/>
 					<label htmlFor='password' className={inputStyle.label}>
 						Parol
 					</label>
 				</div>
-				{error && (
+				{authError && (
 					<p className='text-red-500 font-bold text-sm text-center transition'>
-						{error}
+						{authError}
 					</p>
 				)}
 				<button
-					className='active:scale-[0.9] rounded transition bg-[#4285f4] text-white p-2 flex items-center justify-center'
+					className='active:scale-[0.9] focus:ring rounded transition bg-[#4285f4] text-white p-2 flex items-center justify-center'
 					type='submit'
+					disabled={buttonIsDisabled}
 				>
 					{loading ? (
 						<div role='status'>
