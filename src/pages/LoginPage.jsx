@@ -10,11 +10,24 @@ const LoginPage = () => {
 			<h1 className={styles.title}>Tizimga kirish</h1>
 			<br />
 			<div className='input-wrapper'>
-				<input type='email' placeholder='' name='email' id='email' autoFocus required />
+				<input
+					type='email'
+					placeholder=''
+					name='email'
+					id='email'
+					autoFocus
+					required
+				/>
 				<label htmlFor='email'>E-mail manzil</label>
 			</div>
 			<div className='input-wrapper'>
-				<input type='password' placeholder='' name='password' id='password' autoFocus required />
+				<input
+					type='password'
+					placeholder=''
+					name='password'
+					id='password'
+					required
+				/>
 				<label htmlFor='password'>Parol</label>
 			</div>
 			<br />
