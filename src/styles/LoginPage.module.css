@@ -1,0 +1,27 @@
+.form {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: var(--card-padding);
+	box-shadow: var(--box-shadow);
+	border-radius: var(--border-radius-2);
+	background-color: var(--color-white);
+}
+
+.form .title {
+	text-align: center;
+}
+
+.form button {
+	border-radius: var(--border-radius-1);
+	border: 1px solid var(--color-dark);
+	width: 100%;
+	padding: 1rem;
+	transition: 0.1s;
+}
+
+.form button:focus {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+}
