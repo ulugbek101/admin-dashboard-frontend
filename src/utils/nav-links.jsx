@@ -25,6 +25,11 @@ export const navLinks = [
 		icon: 'insights',
 	},
 	{
+		text: "To'lovlar",
+		link: '/payments',
+		icon: 'event',
+	},
+	{
 		text: 'Chiqimlar',
 		link: '/expenses',
 		icon: 'request_quote',

@@ -18,7 +18,9 @@ const RootLayout = () => {
 	return !user ? null : (
 		<div className='container'>
 			<Navbar />
-			<Outlet />
+			<main>
+				<Outlet />
+			</main>
 		</div>
 	)
 }

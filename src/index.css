@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import '../src/styles/Login.css';
 
 :root {
 	--color-primary: #6c9bcf;
@@ -282,17 +283,17 @@ aside .sidebar .message-count {
 	width: 50%;
 }
 
-.button {
+button {
 	transition: 0.1s;
 	background: none;
 	color: var(--color-dark);
 }
 
-.button:active {
+button:active {
 	scale: 0.95;
 }
 
-.button:hover {
+button:hover {
 	cursor: pointer;
 }
 

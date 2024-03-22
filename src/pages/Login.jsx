@@ -20,23 +20,38 @@ const Login = () => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<input
-				type='email'
-				name='email'
-				onChange={e => setEmail(e.target.value)}
-				value={email}
-			/>
-			<input
-				type='password'
-				name='password'
-				onChange={e => setPassword(e.target.value)}
-				value={password}
-			/>
-			<button disabled={!email || !password} type='submit'>
-				Kirish
-			</button>
-		</form>
+		<div className='container'>
+			<div className='signin-form'>
+				<form onSubmit={handleSubmit} className='form' id='login-form'>
+					<h1>Tizimga kirish</h1>
+					<div id='input-wrapper'>
+						<input
+							type='email'
+							name='email'
+							onChange={e => setEmail(e.target.value)}
+							value={email}
+							id='email'
+							placeholder=''
+						/>
+						<label htmlFor='email'>E-mail manzil</label>
+					</div>
+					<div id='input-wrapper'>
+						<input
+							type='password'
+							name='password'
+							onChange={e => setPassword(e.target.value)}
+							value={password}
+							id='password'
+							placeholder=''
+						/>
+						<label htmlFor='password'>Parol</label>
+					</div>
+					<button disabled={!email || !password} type='submit'>
+						Kirish
+					</button>
+				</form>
+			</div>
+		</div>
 	)
 }
 
