@@ -3,42 +3,63 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ModalWindow from '../components/ModalWindow'
 import { authContext } from '../context/auth-context'
-import useAxios from '../hooks/use-axios'
+import useAxios from '../hooks/useAxios'
 import styles from '../styles/Button.module.css'
 
 const Subjects = () => {
 	const axiosInstance = useAxios()
 	const { logoutUser } = useContext(authContext)
 	const [subjects, setSubjects] = useState([])
+
 	const [editingSubject, setEditingSubject] = useState({})
-	const [isOpen, setIsOpen] = useState(false)
+	const [deletingSubject, setDeletingSubject] = useState({})
+
+	const [editSubjectIsOpen, setEditSubjectModalIsOpen] = useState(false)
+	const [deleteSubjectIsOpen, setDeleteSubjectModalIsOpen] = useState(false)
+
+	const handleSubjectDelete = async () => {
+		try {
+			await axiosInstance.delete(`subjects/${deletingSubject.id}/`)
+			toast.success("Fan muvaffaqiyatli o'chirildi")
+			setDeletingSubject({})
+			setDeleteSubjectModalIsOpen(false)
+			fetchSubjects()
+		} catch (error) {
+			toast.warning("Nom'alum xatolik yuz berdi")
+			console.log(error)
+		}
+		setDeletingSubject({})
+	}
+
+	const handleDeletSubjectModalClose = () => {
+		setDeletingSubject({})
+		setDeleteSubjectModalIsOpen(false)
+	}
 
 	const handleSubjectChange = async () => {
 		try {
-			const response = await axiosInstance.put(
-				`api/v1/subjects/${editingSubject.id}/`,
-				{
-					name: editingSubject.name,
-				}
-			)
+			await axiosInstance.put(`subjects/${editingSubject.id}/`, {
+				name: editingSubject.name,
+			})
 			toast.success("Fan nomi muvaffaqiyatli o'zgartirildi")
 			setEditingSubject({})
-			setIsOpen(false)
+			setEditSubjectModalIsOpen(false)
+			fetchSubjects()
 		} catch (error) {
-			if (error?.response.status === 400) {
+			if (error.response?.status === 400) {
 				toast.error('Bundan nomli allaqachon mavjud')
 			}
 
-			if (error?.response.status === 401) {
+			if (error.response?.status === 401) {
 				toast.warning('Tizimga qayta kiring, sessiya vaqti tugagan')
 				logoutUser()
 			}
 		}
 	}
 
-	const handleModalClose = () => {
-		setEditingSubject(null)
-		setIsOpen(false)
+	const handleEditSubjectModalClose = () => {
+		setEditingSubject({})
+		setEditSubjectModalIsOpen(false)
 	}
 
 	useEffect(() => {
@@ -47,16 +68,11 @@ const Subjects = () => {
 
 	const fetchSubjects = async () => {
 		try {
-			const response = await axiosInstance.get('/api/v1/subjects/')
+			const response = await axiosInstance.get('subjects/')
 			setSubjects(response.data)
 		} catch (error) {
-			if (error?.response.status === 401) {
-				toast.warning('Tizimga qayta kiring, sessiya vaqti tugagan')
-				logoutUser()
-			} else {
-				toast.warning("Noma'lum xatolik yuz berdi")
-				console.log(error)
-			}
+			toast.warning("Noma'lum xatolik yuz berdi")
+			console.log(error)
 		}
 	}
 
@@ -89,7 +105,7 @@ const Subjects = () => {
 									<td>
 										<button
 											onClick={() => {
-												setIsOpen(true)
+												setEditSubjectModalIsOpen(true)
 												setEditingSubject({
 													id: subject.id,
 													name: subject.name,
@@ -99,14 +115,26 @@ const Subjects = () => {
 										>
 											<span className='material-icons-sharp'>edit</span>
 										</button>
-										<button className='py-1 px-2 mx-1 transition hover:bg-[red] rounded'>
+										<button
+											className='py-1 px-2 mx-1 transition hover:bg-[red] rounded'
+											onClick={() => {
+												setDeleteSubjectModalIsOpen(true)
+												setDeletingSubject({
+													id: subject.id,
+													name: subject.name,
+												})
+											}}
+										>
 											<span className='material-icons-sharp'>delete</span>
 										</button>
 									</td>
 								</tr>
 							))}
-							{isOpen && (
-								<ModalWindow isOpen={isOpen} onClose={handleModalClose}>
+							{editSubjectIsOpen && (
+								<ModalWindow
+									isOpen={editSubjectIsOpen}
+									onClose={handleEditSubjectModalClose}
+								>
 									<div>
 										<label htmlFor='subjectName'>Fan nomi:</label>
 										<input
@@ -116,6 +144,7 @@ const Subjects = () => {
 													name: e.target.value,
 												})
 											}
+											autoFocus
 											type='text'
 											name='subjectName'
 											id='subjectName'
@@ -127,6 +156,18 @@ const Subjects = () => {
 										>
 											O'zgartirish
 										</button>
+									</div>
+								</ModalWindow>
+							)}
+							{deleteSubjectIsOpen && (
+								<ModalWindow
+									isOpen={deleteSubjectIsOpen}
+									onClose={handleDeletSubjectModalClose}
+								>
+									<div>
+										"{deletingSubject.name}" fanini o'chirishga ishonchingiz
+										komilmi ?<button onClick={handleSubjectDelete}>Ha</button>
+										<button onClick={handleDeletSubjectModalClose}>Yo'q</button>
 									</div>
 								</ModalWindow>
 							)}

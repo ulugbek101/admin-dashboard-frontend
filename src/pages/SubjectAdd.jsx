@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { authContext } from '../context/auth-context'
-import useAxios from '../hooks/use-axios'
+import useAxios from '../hooks/useAxios'
 
 const SubjectAdd = () => {
 	const axiosInstance = useAxios()
@@ -23,7 +23,7 @@ const SubjectAdd = () => {
 		try {
 			const subjectName =
 				subject[0].toUpperCase() + subject.slice(1).toLowerCase()
-			const response = await axiosInstance.post('api/v1/subjects/', {
+			await axiosInstance.post('subjects/', {
 				name: subjectName,
 			})
 			setError('')
@@ -54,6 +54,7 @@ const SubjectAdd = () => {
 								setSubject(e.target.value)
 								setError('')
 							}}
+							autoFocus
 							type='text'
 							name='name'
 							id='name'

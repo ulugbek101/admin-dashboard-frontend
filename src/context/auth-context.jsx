@@ -1,11 +1,19 @@
+import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import { createContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import useAxios from '../hooks/use-axios'
 import getStoredTokens from '../utils/get-token'
+import { baseURL } from '../utils/url'
 
-export const authContext = createContext()
+export const authContext = createContext({
+	user: null,
+	authTokens: null,
+	setUser: () => {},
+	setAuthTokens: () => {},
+	loginUser: () => {},
+	logoutUser: () => {},
+})
 
 const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = useState(() =>
@@ -15,11 +23,10 @@ const AuthContextProvider = ({ children }) => {
 		getStoredTokens() ? getStoredTokens() : null
 	)
 	const navigate = useNavigate()
-	const axiosInstance = useAxios()
 
 	const loginUser = async (email, password) => {
 		try {
-			const response = await axiosInstance.post('/api/v1/profiles/token/', {
+			const response = await axios.post(baseURL + 'profiles/token/', {
 				email,
 				password,
 			})
@@ -39,7 +46,6 @@ const AuthContextProvider = ({ children }) => {
 		setUser(null)
 		setAuthTokens(null)
 		localStorage.removeItem('authTokens')
-		// toast.success(`Xush kelibsiz ${user.first_name} ${user.last_name} !`)
 		navigate('/login')
 	}
 

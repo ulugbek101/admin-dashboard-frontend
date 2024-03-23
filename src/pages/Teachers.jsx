@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { toast } from 'react-toastify'
 import { authContext } from '../context/auth-context'
-import useAxios from '../hooks/use-axios'
+import useAxios from '../hooks/useAxios'
 
 const Teachers = () => {
 	const { logoutUser } = useContext(authContext)
