@@ -92,7 +92,7 @@ const Subjects = () => {
 								<th>Fan</th>
 								<th>Guruhlar</th>
 								<th>O'quvchilar</th>
-								<th>O'zgartirish</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>

@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { authContext } from '../context/auth-context'
 import useAxios from '../hooks/useAxios'
 
 const SubjectAdd = () => {
@@ -9,13 +8,12 @@ const SubjectAdd = () => {
 	const [error, setError] = useState('')
 	const [subject, setSubject] = useState('')
 	const [buttonIsDisabled, setButtonIsDisabled] = useState(false)
-	const { logoutUser } = useContext(authContext)
 	const navigate = useNavigate()
 
-	const onSubmitHandler = async e => {
+const onSubmitHandler = async e => {
 		e.preventDefault()
 
-		if (subject.trim().length <= 1) {
+		if (subject.trim().length <= 3) {
 			setError("Fan nomi 3 ta belgidan kam bo'lishi mumkin emas")
 			return
 		}
@@ -33,9 +31,9 @@ const SubjectAdd = () => {
 			if (error.response?.status === 400) {
 				setError('Bunday nomga ega fan allaqachon mavjud')
 				toast.error('Bunday nomga ega fan allaqachon mavjud')
-			} else if (error.response?.status === 401) {
-				toast.warning('Sessiya vaqti tugadi, iltimos tizimga qaytadan kiring')
-				logoutUser()
+			} else {
+				toast.warning("Noma'lum xatolik yuz berdi")
+				console.log(error)
 			}
 		}
 		setButtonIsDisabled(false)
@@ -63,7 +61,7 @@ const SubjectAdd = () => {
 					</div>
 					{error && <p className='danger'>{error}</p>}
 					<br />
-					<button disabled={buttonIsDisabled}>Fanni qo'shish</button>
+					<button disabled={buttonIsDisabled}>Qo'shish</button>
 				</form>
 			</div>
 		</>
