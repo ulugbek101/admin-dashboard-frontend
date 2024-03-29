@@ -4,18 +4,22 @@ import { AuthTokens } from "../models/auth-tokens";
 import { ReactNode } from "../models/react-node";
 import { User } from "../models/user";
 
-const authContext = createContext<AuthContext>(null);
+export const authContext = createContext<AuthContext>(null);
 
 const AuthContextProvider = ({ children }: ReactNode) => {
 	const [user, setUser] = useState<User>(null);
 	const [authTokens, setAuthTokens] = useState<AuthTokens>(null);
 
-	const loginUser = async (authTokens: AuthTokens) => {};
+	const loginUser = async (email: string, password: string) => {
+		// ...
+	};
 	const logoutUser = () => {};
 
 	const defaultValue: AuthContext = {
 		user,
 		authTokens,
+		setUser,
+		setAuthTokens,
 		loginUser,
 		logoutUser,
 	};
