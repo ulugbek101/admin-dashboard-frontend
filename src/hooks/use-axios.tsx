@@ -32,7 +32,7 @@ const useAxios = () => {
 		const response = await axios.post(
 			baseURL + "/api/v1/profiles/token/refresh/",
 			{
-				refresh: authTokens.refresh,
+				refresh: authTokens?.refresh,
 			}
 		);
 
