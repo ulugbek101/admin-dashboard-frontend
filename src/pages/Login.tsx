@@ -10,7 +10,7 @@ const Login = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (user) {
+		if (user.id) {
 			navigate("/");
 		}
 	}, [user, navigate]);
@@ -22,7 +22,7 @@ const Login = () => {
 	};
 
 	return (
-		!user && (
+		!user.id && (
 			<div className="p-5 absolute h-full w-full flex items-center justify-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
 				<form className="flex flex-col w-full gap-2" onSubmit={handleLogin}>
 					<h3 className="text-center text-2xl mb-2">Tizimga kirish</h3>

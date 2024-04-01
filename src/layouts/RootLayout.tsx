@@ -1,14 +1,23 @@
-import { Outlet } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Top from "../components/Top";
-import { useState } from "react";
+import { authContext } from "../context/auth-context";
 
 const RootLayout = () => {
-	const [isClosed, setIsClosed] = useState(false);
+	const { user } = useContext(authContext);
+	const navigate = useNavigate();
+	const [isClosed, setIsClosed] = useState(true);
 
 	const handleNavbar = () => {
 		setIsClosed(!isClosed);
 	};
+
+	useEffect(() => {
+		if (!user.id) {
+			navigate("/login");
+		}
+	}, [user, navigate]);
 
 	return (
 		<>

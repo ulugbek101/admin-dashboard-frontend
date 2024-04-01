@@ -1,6 +1,7 @@
 import axios, { isAxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../models/auth-context";
 import { AuthTokens } from "../models/auth-tokens";
@@ -9,9 +10,25 @@ import { User } from "../models/user";
 import { getStoredTokens } from "../utils/auth-tokens";
 import { baseURL } from "../utils/urls";
 
+const emptyUser = {
+	id: "",
+	email: "",
+	firstName: "",
+	lastName: "",
+	profileImage: "",
+	status: "",
+	isStaff: false,
+	isSuperuser: false,
+};
+
+const emptyTokens = {
+	access: "",
+	refresh: "",
+};
+
 export const authContext = createContext<AuthContext>({
-	user: null,
-	authTokens: null,
+	user: emptyUser,
+	authTokens: emptyTokens,
 	setUser: () => {},
 	setAuthTokens: () => {},
 	loginUser: () => {},
@@ -20,12 +37,13 @@ export const authContext = createContext<AuthContext>({
 
 const AuthContextProvider = ({ children }: ReactNode) => {
 	const storedTokens = getStoredTokens();
-	const [user, setUser] = useState<User>(() =>
-		storedTokens ? jwtDecode(storedTokens?.access) : null
+	const [user, setUser] = useState<User>(
+		storedTokens ? jwtDecode(storedTokens.access) : emptyUser
 	);
 	const [authTokens, setAuthTokens] = useState<AuthTokens>(
-		() => storedTokens || null
+		storedTokens ? storedTokens : emptyTokens
 	);
+	const navigate = useNavigate();
 
 	const loginUser = async (email: string, password: string) => {
 		try {
@@ -34,27 +52,10 @@ const AuthContextProvider = ({ children }: ReactNode) => {
 				password,
 			});
 
-			setUser(() => {
-				const newUser: {
-					id: string;
-					profile_image: string;
-					email: string;
-					first_name: string;
-					last_name: string;
-					status: string;
-				} = jwtDecode(response.data.access);
-
-				return {
-					id: newUser.id,
-					profileImage: newUser.profile_image,
-					firstName: newUser.first_name,
-					lastName: newUser.last_name,
-					email: newUser.email,
-					status: newUser.status,
-				};
-			});
+			setUser(jwtDecode(response.data.access));
 			setAuthTokens(response.data);
 			localStorage.setItem("authTokens", JSON.stringify(response.data));
+			navigate("/");
 		} catch (error) {
 			const axiosError = isAxiosError(error);
 
@@ -66,7 +67,13 @@ const AuthContextProvider = ({ children }: ReactNode) => {
 			}
 		}
 	};
-	const logoutUser = () => {};
+
+	const logoutUser = () => {
+		setUser(emptyUser);
+		setAuthTokens(emptyTokens);
+		localStorage.removeItem("authTokens");
+		navigate("/login");
+	};
 
 	const defaultValue: AuthContext = {
 		user,
