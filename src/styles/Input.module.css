@@ -1,24 +1,21 @@
-.input-group {
+.inputGroup {
 	position: relative;
-	display: flex;
-	flex-direction: column;
+}
+.inputGroup input {
+    padding: 10px 1rem;
 }
 
-.input-group label {
-	transition: 0.2s;
+.inputGroup label {
 	position: absolute;
-	top: 30%;
-	left: 0.8rem;
+	top: 50%;
+	left: 5%;
+    transform: translate(-5%, -50%);
+    transition: .2s;
 }
-.input-group input {
-	outline: none;
-	padding: 1rem 0.8rem 0.5rem;
-	border: 1px solid var(--color-dark-variant);
-	border-radius: var(--border-radius-1);
-	background: var(--color-white);
-}
-.input-group input:focus ~ label,
-.input-group input:not(:placeholder-shown) ~ label {
-	top: 10%;
-	font-size: 0.7rem;
+
+.inputGroup input:focus ~ label,
+.inputGroup input:not(:placeholder-shown) ~ label {
+    top: 15%;
+    left: 5%;
+    font-size: 10px;
 }

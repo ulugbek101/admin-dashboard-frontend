@@ -1,64 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-	--color-info: #6c9bcf;
-	--color-danger: red;
-	--color-error: red;
-	--color-success: #1b9c85;
-	--color-warning: #f7d060;
-	--color-white: #fff;
-	--color-info-dark: #7d8da1;
-	--color-dark: #363949;
-	--color-black: #000;
-	--color-light: rgba(132, 139, 200, 0.18);
-	--color-dark-variant: #677483;
-	--color-background: #f6f6f9;
-
-	--card-border-radius: 2rem;
-	--border-radius-1: 0.4rem;
-	--border-radius-2: 1.2rem;
-
-	--card-padding: 1.8rem;
-	--padding-1: 1.2rem;
-	--padding-1-5: 0.8rem;
-
-	--box-shadow: 0 2rem 3rem var(--color-light);
-}
-
-.dark-mode-variables {
-	--color-background: #181a1e;
-	--color-white: #202528;
-	--color-dark: #edeffd;
-	--color-dark-variant: #a3bdcc;
-	--color-light: rgba(0, 0, 0, 0.4);
-	--box-shadow: 0 2rem 3rem var(--color-light);
-}
-
-html {
-	font-size: 14px;
-}
-
-body {
-	width: 100vw;
-	height: 100vh;
-	font-family: "Poppins", sans-serif;
-	font-size: 0.88rem;
-	color: var(--color-dark);
-	background-color: var(--color-background);
+* {
+	font-family: sans-serif;
 }
 
 button {
-	transition: 0.1s;
+    transition: .1s;
 }
 
 button:active {
-	scale: 0.9;
-}
-
-button:focus {
-	outline: 2px solid var(--color-dark);
+    scale: 0.97;    
 }
