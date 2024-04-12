@@ -36,8 +36,13 @@ const AuthContextProvider = ({ children }) => {
 			);
 			setUser(jwtDecode(response.data.access));
 			setAuthTokens(response.data);
+			localStorage.setItem('authTokens', JSON.stringify(response.data));
+			toast.success(`Xush kelibsiz, ${user.full_name} 👋`)
 			navigate('/');
 		} catch (error) {
+			if (error && error.response && error.response.status === 401) {
+				toast.error('Foydalanuvchi topilmadi')
+			}
 			if (error && error.code === 'ERR_NETWORK') {
 				toast.error('Internetga ulaning');
 			}
@@ -47,7 +52,7 @@ const AuthContextProvider = ({ children }) => {
 	const logoutUser = () => {
 		setUser(null);
 		setAuthTokens(null);
-		toast.success('Tizimdan chiqdingiz')
+		toast.success('Tizimdan chiqdingiz');
 		navigate('/login');
 	};
 

@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
 import RootLayout from './layouts/RootLayout';
 
 function App() {
 	return (
 		<Routes>
 			<Route element={<RootLayout />}>
-				<Route path='/' element={<HomePage />} exact />
+				<Route path='/' element={<ProfilePage />} exact />
 			</Route>
 			<Route path='/login' element={<LoginPage />} />
 		</Routes>
