@@ -9,6 +9,27 @@ function ProfilePage() {
 	const [lastName, setLastName] = useState(user.last_name);
 	const [email, setEmail] = useState(user.email);
 	const [status, setStatus] = useState(user.status);
+	const [profileImageUrl, setProfileImageUrl] = useState(
+		user.profile_image ? user.profile_image : defaultUserImage
+	);
+	const [userImage, setUserImage] = useState(null);
+	const [userImageSize, setUserImageSize] = useState(null);
+
+	const handleFileChange = event => {
+		const file = event.target.files[0];
+		setUserImage(file);
+		if (file) {
+			setUserImageSize(file.size);
+			const reader = new FileReader();
+			reader.onload = () => {
+				setProfileImageUrl(reader.result);
+			};
+			reader.readAsDataURL(file);
+		} else {
+			setUserImageSize(null);
+			setProfileImageUrl(null);
+		}
+	};
 
 	return (
 		<form className='flex flex-col h-[100%] gap-4'>
@@ -61,6 +82,7 @@ function ProfilePage() {
 				<select
 					name='status'
 					id='status'
+					onChange={e => setStatus(e.target.value)}
 					className='w-full p-3 font-bold text-gray-900 border border-gray-900 rounded focus:outline-0'
 				>
 					<option
@@ -89,8 +111,7 @@ function ProfilePage() {
 			<div className='flex flex-row justify-between gap-4'>
 				<div className='relative'>
 					<input
-						// value={status}
-						// onChange={e => setStatus(e.target.value)}
+						onChange={handleFileChange}
 						type='file'
 						accept='image/png, image/jpg, image/jpeg'
 						name='profile_image'
@@ -100,19 +121,18 @@ function ProfilePage() {
 						required
 					/>
 					<label
-						for='profile_image'
+						htmlFor='profile_image'
 						className='absolute top-0 left-0 flex items-center justify-center w-full h-full font-bold border-2 border-gray-900 border-dashed rounded'
 					>
 						Profil rasm o'rnatish
 					</label>
 				</div>
-				<img
-					className='w-20'
-					src={user.profile_image ? user.profile_image : defaultUserImage}
-					alt=''
-				/>
+				<img className='w-20' src={profileImageUrl} alt='' />
 			</div>
-			<small><b>*Profil rasmi 2 MB dan oshmasligi kerak</b></small>
+			<small>
+				{userImageSize && <b className="block">*Rasm hajmi: {(userImageSize / 1024 / 1024).toFixed(2)} MB</b>}
+				<b>*Profil rasmi 2 MB dan oshmasligi kerak</b>
+			</small>
 			<button
 				className='w-full px-2 py-2 font-bold transition bg-white border border-gray-900 rounded hover:text-white hover:bg-gray-900'
 				type='submit'
