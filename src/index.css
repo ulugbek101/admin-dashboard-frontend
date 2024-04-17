@@ -13,3 +13,7 @@ button {
 button:active {
     scale: 0.97;    
 }
+
+button:disabled {
+    scale: 1;
+}
