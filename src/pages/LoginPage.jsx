@@ -76,7 +76,7 @@ function LoginPage() {
 				<button
 					disabled={!formIsValid}
 					type="submit"
-					className="flex disabled:cursor-not-allowed cursor-pointer disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-gray-900 justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:bg-gray-900 hover:text-white "
+					className="flex disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-gray-900 justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:bg-gray-900 hover:text-white "
 				>
 					{isLoading && (
 						<svg
