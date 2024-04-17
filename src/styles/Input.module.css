@@ -2,20 +2,20 @@
 	position: relative;
 }
 .inputGroup input {
-    padding: 10px 1rem;
+	padding: 23px 18px 10px;
 }
 
 .inputGroup label {
 	position: absolute;
 	top: 50%;
-	left: 5%;
-    transform: translate(-5%, -50%);
-    transition: .2s;
+	left: 18px;
+	transform: translate(-5%, -50%);
+	transition: 0.2s;
 }
 
 .inputGroup input:focus ~ label,
 .inputGroup input:not(:placeholder-shown) ~ label {
-    top: 15%;
-    left: 5%;
-    font-size: 10px;
+	top: 16px;
+	left: 18px;
+	font-size: 11px;
 }
