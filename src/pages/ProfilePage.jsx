@@ -32,7 +32,7 @@ function ProfilePage() {
 	};
 
 	return (
-		<form className='flex flex-col h-[100%] gap-4'>
+		<form className='flex flex-col h-[100%] gap-4 justify-between'>
 			<div className={inputStyles.inputGroup}>
 				<input
 					value={firstName}
@@ -41,10 +41,10 @@ function ProfilePage() {
 					name='first_name'
 					id='first_name'
 					placeholder=''
-					className='w-full font-bold border-2 border-gray-900 rounded focus:outline-0'
+					className='w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0'
 					required
 				/>
-				<label htmlFor='first_name' className='font-bold'>
+				<label htmlFor='first_name'>
 					Ism
 				</label>
 			</div>
@@ -56,10 +56,10 @@ function ProfilePage() {
 					name='last_name'
 					id='last_name'
 					placeholder=''
-					className='w-full font-bold border-2 border-gray-900 rounded focus:outline-0'
+					className='w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0'
 					required
 				/>
-				<label htmlFor='last_name' className='font-bold'>
+				<label htmlFor='last_name'>
 					Familiya
 				</label>
 			</div>
@@ -71,10 +71,10 @@ function ProfilePage() {
 					name='email'
 					id='email'
 					placeholder=''
-					className='w-full font-bold border-2 border-gray-900 rounded focus:outline-0'
+					className='w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0'
 					required
 				/>
-				<label htmlFor='email' className='font-bold'>
+				<label htmlFor='email'>
 					E-mail manzil
 				</label>
 			</div>
@@ -83,7 +83,7 @@ function ProfilePage() {
 					name='status'
 					id='status'
 					onChange={e => setStatus(e.target.value)}
-					className='w-full p-3 font-bold text-gray-900 border border-gray-900 rounded focus:outline-0'
+					className='w-full p-[18px] pt-[23px] transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0'
 				>
 					<option
 						className='font-bold'
@@ -122,7 +122,7 @@ function ProfilePage() {
 					/>
 					<label
 						htmlFor='profile_image'
-						className='absolute top-0 left-0 flex items-center justify-center w-full h-full font-bold border-2 border-gray-900 border-dashed rounded'
+						className='absolute top-0 left-0 flex items-center justify-center w-full h-full border border-gray-900 border-dashed rounded'
 					>
 						Profil rasm o'rnatish
 					</label>
@@ -130,11 +130,11 @@ function ProfilePage() {
 				<img className='w-20' src={profileImageUrl} alt='' />
 			</div>
 			<small>
-				{userImageSize && <b className="block">*Rasm hajmi: {(userImageSize / 1024 / 1024).toFixed(2)} MB</b>}
-				<b>*Profil rasmi 2 MB dan oshmasligi kerak</b>
+				{userImageSize && <small className="block">*Rasm hajmi: {(userImageSize / 1024 / 1024).toFixed(2)} MB</small>}
+				<small>*Profil rasmi 2 MB dan oshmasligi kerak</small>
 			</small>
 			<button
-				className='w-full px-2 py-2 font-bold transition bg-white border border-gray-900 rounded hover:text-white hover:bg-gray-900'
+				className='w-full mt-auto px-2 py-2 transition bg-white border border-gray-900 rounded hover:text-white hover:bg-gray-900'
 				type='submit'
 			>
 				Profil ma'lumotlarini yangialash

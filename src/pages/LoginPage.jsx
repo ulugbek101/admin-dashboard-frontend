@@ -47,7 +47,7 @@ function LoginPage() {
 						className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
 						required
 					/>
-					<label htmlFor="password" className="text-[#666]">
+					<label htmlFor="email" className="text-[#666]">
 						E-mail
 					</label>
 				</div>
