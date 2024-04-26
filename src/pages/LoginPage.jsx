@@ -63,10 +63,10 @@ function LoginPage() {
 						className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
 						required
 					/>
-					{passwordIsHidden && <span onClick={() => setPasswordIsHidden(false)} class="material-icons cursor-pointer text-[#b8b8b8] absolute right-[18px] top-1/2 -translate-y-1/2 text-lg">
+					{passwordIsHidden && <span onClick={() => setPasswordIsHidden(false)} className="material-icons cursor-pointer text-[#b8b8b8] absolute right-[18px] top-1/2 -translate-y-1/2 text-lg">
 						visibility
 					</span>}
-					{!passwordIsHidden && <span onClick={() => setPasswordIsHidden(true)} class="material-icons cursor-pointer text-[#b8b8b8] absolute right-[18px] top-1/2 -translate-y-1/2 text-lg">
+					{!passwordIsHidden && <span onClick={() => setPasswordIsHidden(true)} className="material-icons cursor-pointer text-[#b8b8b8] absolute right-[18px] top-1/2 -translate-y-1/2 text-lg">
 						visibility_off
 					</span>}
 					<label htmlFor="password" className="text-[#666]">
@@ -76,7 +76,7 @@ function LoginPage() {
 				<button
 					disabled={!formIsValid}
 					type="submit"
-					className="flex disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-gray-900 justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:bg-gray-900 hover:text-white "
+					className="flex disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-[#3d3bff] justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:text-white hover:bg-[#000]"
 				>
 					{isLoading && (
 						<svg

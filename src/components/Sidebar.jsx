@@ -28,62 +28,64 @@ function Sidebar({ isClosed, closeSidebar }) {
 			</div>
 			<div className='flex flex-col h-full gap-2 font-bold text-white'>
 				<NavLink
+					onClick={() => closeSidebar(true)}
 					to='/subjects'
-					className='flex items-center gap-2 py-2 rounded'
+					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>import_contacts</span>
 					Fanlar
 				</NavLink>
 				<NavLink
-					to='/subjects'
-					className='flex items-center gap-2 py-2 rounded'
+					to='/groups'
+					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>groups</span>
 					Guruhlar
 				</NavLink>
 				<NavLink
-					to='/subjects'
-					className='flex items-center gap-2 py-2 rounded'
+					to='/teachers'
+					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>assignment_ind</span>
 					O'qituvchilar
 				</NavLink>
 				<NavLink
-					to='/subjects'
-					className='flex items-center gap-2 py-2 rounded'
+					to='/pupils'
+					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>school</span>
 					O'quvchilar
 				</NavLink>
 				<NavLink
-					to='/subjects'
-					className='flex items-center gap-2 py-2 rounded'
+					to='/analytics'
+					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>insights</span>
 					Analitika
 				</NavLink>
 				<NavLink
-					to='/subjects'
-					className='flex items-center gap-2 py-2 rounded'
+					to='/download-stats'
+					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>file_download</span>
 					Statistikani yuklash
 				</NavLink>
 				<NavLink
-					to='/subjects'
+					to='/payments'
 					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
 					<span className='material-icons'>event</span>
 					To'lovlar
 				</NavLink>
 				<NavLink
-					to='/subjects'
+					to='/expenses'
 					className='flex items-center gap-2 py-2 rounded'
 				>
 					<span className='material-icons'>request_quote</span>
 					Chiqimlar
 				</NavLink>
 				<NavLink
+				onClick={() => closeSidebar(true)}
 					to='/'
 					className={({isActive}) => `${isActive && 'ms-1 bg-gradient-to-l from-white'} flex items-center gap-2 py-2 rounded`}
 				>
