@@ -18,7 +18,7 @@ function RootLayout() {
 	return user ? (
 		<>
 			<Navbar />
-			<main className="container m-auto pt-5">
+			<main className="max-w-[1168px] m-auto pt-5">
 				<Outlet />
 			</main>
 		</>
