@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { authContext } from "../context/auth-context";
 import { defaultUserImage } from "../utils/urls";
 
@@ -10,8 +10,10 @@ function Navbar() {
 
 	useEffect(() => {
 		let closeDropdownMenu = e => {
-			if (!dropdownMenuRef.current.contains(e.target)) {
-				setProfileDrowdownIsShown(false);
+			if (profileDrowdownIsShown) {
+				if (!dropdownMenuRef.current.contains(e.target)) {
+					setProfileDrowdownIsShown(false);
+				}
 			}
 		};
 		document.addEventListener("mousedown", closeDropdownMenu);
@@ -25,7 +27,52 @@ function Navbar() {
 				<Link to="/">
 					<img src="/logo.jpeg" alt="" className="max-w-40" />
 				</Link>
-				<div className="relative">
+
+				<div className="relative flex items-center">
+					<div className="me-10">
+						<div className="flex items-center justify-center gap-2">
+							<NavLink
+								to="/subjects"
+								className={({ isActive }) =>
+									`${
+										isActive && "bg-[#f5f5f5]"
+									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
+								}
+							>
+								Fanlar
+							</NavLink>
+							<NavLink
+								to="/groups"
+								className={({ isActive }) =>
+									`${
+										isActive && "bg-[#f5f5f5]"
+									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
+								}
+							>
+								Guruhlar
+							</NavLink>
+							<NavLink
+								to="/teachers"
+								className={({ isActive }) =>
+									`${
+										isActive && "bg-[#f5f5f5]"
+									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
+								}
+							>
+								Ustozlar
+							</NavLink>
+							<NavLink
+								to="/students"
+								className={({ isActive }) =>
+									`${
+										isActive && "bg-[#f5f5f5]"
+									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
+								}
+							>
+								O&apos;quvchilar
+							</NavLink>
+						</div>
+					</div>
 					<img
 						onClick={() => setProfileDrowdownIsShown(!profileDrowdownIsShown)}
 						src={user.profile_image ? user.profile_image : defaultUserImage}
@@ -35,7 +82,7 @@ function Navbar() {
 					{profileDrowdownIsShown && (
 						<div
 							ref={dropdownMenuRef}
-							className="transition absolute p-5 top-[48px] w-[280px] right-0 rounded-2xl shadow-lg bg-white"
+							className="transition absolute z-10 p-5 top-[48px] w-[280px] right-0 rounded-2xl shadow-lg bg-white"
 						>
 							<div className="flex flex-row justify-between gap-3 mx-3 mb-2 pb-2 items-center border-b-[1px] border-[#e0e0e0]">
 								<img
@@ -54,7 +101,10 @@ function Navbar() {
 							</div>
 							<ul>
 								<li className="p-[6px] pe-[16px] rounded-xl transition hover:cursor-pointer min-h-[44px] flex items-center hover:bg-[#f5f5f5]">
-									<div className="ms-[10px] w-full">
+									<div
+										className="ms-[10px] w-full"
+										onClick={() => setProfileDrowdownIsShown(false)}
+									>
 										<Link className="w-full block" to="/">
 											Profil
 										</Link>
@@ -62,19 +112,33 @@ function Navbar() {
 								</li>
 								<li className="p-[6px] pe-[16px] rounded-xl transition hover:cursor-pointer min-h-[44px] flex items-center hover:bg-[#f5f5f5]">
 									<div className="ms-[10px] w-full">
-										<Link className="w-full block">Chiqimlar</Link>
+										<Link
+											className="w-full block"
+											onClick={() => setProfileDrowdownIsShown(false)}
+										>
+											Chiqimlar
+										</Link>
+									</div>
+								</li>
+								<li className="p-[6px] pe-[16px] rounded-xl transition hover:cursor-pointer min-h-[44px] flex items-center hover:bg-[#f5f5f5]">
+									<div
+										className="ms-[10px] w-full"
+										onClick={() => setProfileDrowdownIsShown(false)}
+									>
+										<Link className="w-full block">To&apos;lovlar</Link>
 									</div>
 								</li>
 								<li className="p-[6px] pe-[16px] rounded-xl transition hover:cursor-pointer min-h-[44px] flex items-center hover:bg-[#f5f5f5]">
 									<div className="ms-[10px] w-full">
-										<Link className="w-full block">To'lovlar</Link>
+										<Link
+											className="w-full block"
+											onClick={() => setProfileDrowdownIsShown(false)}
+										>
+											Analitika
+										</Link>
 									</div>
 								</li>
-								<li className="p-[6px] pe-[16px] rounded-xl transition hover:cursor-pointer min-h-[44px] flex items-center hover:bg-[#f5f5f5]">
-									<div className="ms-[10px] w-full">
-										<Link className="w-full block">Analitika</Link>
-									</div>
-								</li>
+								<hr className="my-2" />
 								<li className="p-[6px] pe-[16px] rounded-xl transition hover:cursor-pointer min-h-[44px] flex items-center hover:bg-[#f5f5f5]">
 									<div className="ms-[10px] w-full" onClick={logoutUser}>
 										Chiqish

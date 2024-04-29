@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { authContext } from "../context/auth-context";
 import inputStyles from "../styles/Input.module.css";
@@ -63,14 +62,6 @@ function ProfilePage() {
 
 	return (
 		<>
-			<Link to=".." className="flex items-center gap-2 my-10 group w-max">
-				<div className="bg-[#ebebeb] h-[40px] w-[40px] rounded-full flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors">
-					<span className="material-icons ms-[6px] text-sm">
-						arrow_back_ios
-					</span>
-				</div>
-				Orqaga
-			</Link>
 			<div className="mb-[16px] p-10 bg-[#f5f5f5] rounded-3xl flex flex-row items-center gap-[28px]">
 				<label
 					htmlFor="profile_image"
@@ -101,7 +92,7 @@ function ProfilePage() {
 							person
 						</span>
 					</div>
-					<span className="text-[24px]">Shaxsiy ma'lumotlarim</span>
+					<span className="text-[24px]">Shaxsiy ma&apos;lumotlarim</span>
 				</div>
 				<div>
 					<form
