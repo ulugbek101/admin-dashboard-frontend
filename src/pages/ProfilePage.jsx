@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { authContext } from "../context/auth-context";
 import inputStyles from "../styles/Input.module.css";
+import Button from "../components/UI/Button";
 
 function ProfilePage() {
 	const { user, updateUser } = useContext(authContext);
@@ -51,7 +51,6 @@ function ProfilePage() {
 		updateUser(firstName, lastName, email, password2);
 		setPassword1("");
 		setPassword2("");
-		toast.success("Parol muvaffaqiyatli o'zgartirildi");
 	};
 
 	const updateUserInformation = e => {
@@ -159,13 +158,13 @@ function ProfilePage() {
 							value={userImage}
 						/> */}
 
-						<button
+						<Button
 							disabled={!formIsValid}
-							className="flex disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-[#3d3bff] justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:text-white hover:bg-[#000] w-max"
 							type="submit"
+							className="w-max"
 						>
 							Saqlash
-						</button>
+						</Button>
 					</form>
 				</div>
 			</div>
@@ -219,13 +218,13 @@ function ProfilePage() {
 								Parolni tasdiqlang
 							</label>
 						</div>
-						<button
+						<Button
 							disabled={!passwordsAreValid}
-							className="flex disabled:cursor-not-allowed disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-[#3d3bff] justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:text-white hover:bg-[#000] w-max"
+							className="w-max"
 							type="submit"
 						>
 							Saqlash
-						</button>
+						</Button>
 					</form>
 				</div>
 			</div>
