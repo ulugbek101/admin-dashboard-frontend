@@ -1,5 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { authContext } from "../context/auth-context";
 import inputStyles from "../styles/Input.module.css";
 
@@ -11,6 +12,7 @@ function ProfilePage() {
 	const [password1, setPassword1] = useState("");
 	const [password2, setPassword2] = useState("");
 	const [formIsValid, setFormIsValid] = useState(true);
+	const [passwordsAreValid, setPasswordsAreValid] = useState(false);
 	// const [profileImageUrl, setProfileImageUrl] = useState(
 	// 	user.profile_image ? user.profile_image : defaultUserImage
 	// );
@@ -33,8 +35,24 @@ function ProfilePage() {
 	// 	}
 	// };
 
-	const validateUserForm = () => {
-		setFormIsValid(firstName.trim() && lastName.trim() && email.trim());
+	useEffect(() => {
+		setFormIsValid(
+			firstName.trim() &&
+				lastName.trim() &&
+				/^[^\s@]+@(?:email|gmail|bk)\.(?:ru|com)$/i.test(email)
+		);
+		setPasswordsAreValid(
+			password1.trim() && password2.trim() && password1 === password2
+		);
+	}, [firstName, lastName, email, password1, password2]);
+
+	const updateUserPassword = e => {
+		e.preventDefault();
+		if (!passwordsAreValid) return;
+		updateUser(firstName, lastName, email, password2);
+		setPassword1("");
+		setPassword2("");
+		toast.success("Parol muvaffaqiyatli o'zgartirildi");
 	};
 
 	const updateUserInformation = e => {
@@ -78,7 +96,7 @@ function ProfilePage() {
 
 			<div className="p-10 bg-[#f5f5f5] rounded-3xl flex flex-row justify-between items-start gap-[50px] mb-[16px]">
 				<div className="flex items-center gap-[16px]">
-					<div className="rounded-full w-[40px] h-[40px] bg-[#3d3bff] flex items-center justify-center">
+					<div className="rounded-full w-[40px] h-[40px] bg-[#0387ff] flex items-center justify-center">
 						<span className="material-icons text-white text-[18px]">
 							person
 						</span>
@@ -93,10 +111,7 @@ function ProfilePage() {
 						<div className={inputStyles.inputGroup}>
 							<input
 								value={firstName}
-								onChange={e => {
-									setFirstName(e.target.value);
-									validateUserForm();
-								}}
+								onChange={e => setFirstName(e.target.value)}
 								type="text"
 								name="first_name"
 								id="first_name"
@@ -114,10 +129,7 @@ function ProfilePage() {
 						<div className={inputStyles.inputGroup}>
 							<input
 								value={lastName}
-								onChange={e => {
-									setLastName(e.target.value);
-									validateUserForm();
-								}}
+								onChange={e => setLastName(e.target.value)}
 								type="text"
 								name="last_name"
 								id="last_name"
@@ -135,10 +147,7 @@ function ProfilePage() {
 						<div className={inputStyles.inputGroup}>
 							<input
 								value={email}
-								onChange={e => {
-									setEmail(e.target.value);
-									validateUserForm();
-								}}
+								onChange={e => setEmail(e.target.value)}
 								type="email"
 								name="email"
 								id="email"
@@ -181,6 +190,7 @@ function ProfilePage() {
 					<form
 						action=""
 						className="flex flex-col h-[100%] gap-4 justify-between min-w-[500px]"
+						onSubmit={updateUserPassword}
 					>
 						<div className={inputStyles.inputGroup}>
 							<input
@@ -219,7 +229,7 @@ function ProfilePage() {
 							</label>
 						</div>
 						<button
-							disabled
+							disabled={!passwordsAreValid}
 							className="flex disabled:cursor-not-allowed disabled:bg-[#b8b8b8] disabled:text-white items-center text-white bg-[#3d3bff] justify-center py-[12px] px-[48px] transition border border-[#e0e0e0] focus:border-[#b8b8b8] focus:outline-0 rounded-[12px] text-[18px] hover:text-white hover:bg-[#000] w-max"
 							type="submit"
 						>

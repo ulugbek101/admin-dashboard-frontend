@@ -48,12 +48,17 @@ const AuthContextProvider = ({ children }) => {
 		}
 		setIsLoading(false);
 	};
-	const updateUser = async (first_name, last_name, email) => {
+	const updateUser = async (first_name, last_name, email, password) => {
 		const route = "teachers";
+		const formData = { first_name, last_name, email }
+
+		if (password) {
+			formData.password = password
+		}
 
 		const response = await axios.patch(
 			`${baseURL}/${route}/${user.id}/`,
-			{ first_name, last_name, email },
+			formData,
 			{
 				headers: {
 					"Content-Type": "application/json",
