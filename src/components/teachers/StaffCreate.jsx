@@ -5,17 +5,20 @@ import { authContext } from "../../context/auth-context";
 import { baseURL } from "../../utils/urls";
 import Button from "../UI/Button";
 import CloseButton from "../UI/CloseButton";
+import DropdownInput from "../UI/DropdownInput";
 import Input from "../UI/Input";
 import ModalWindow from "../UI/ModalWindow";
 
-function TeacherCreate({ onClose, fetchTeachers }) {
-	const { authTokens } = useContext(authContext);
+function StaffCreate({ onClose, fetchStaffList }) {
+	const { authTokens, user } = useContext(authContext);
 	const [loading, setLoading] = useState(false);
 	const [formIsValid, setFormIsValid] = useState(false);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
-	const [status, setStatus] = useState("");
+	const [status, setStatus] = useState(
+		user.status === "superuser" ? "" : "teacher"
+	);
 	const [password1, setPassword1] = useState("");
 	const [password2, setPassword2] = useState("");
 
@@ -34,7 +37,7 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 		}
 	}, [firstName, lastName, email, status, password1, password2]);
 
-	const createTeacher = async () => {
+	const createStaff = async () => {
 		if (!formIsValid) {
 			toast.warning("Forma ma'lumotlari noto'g'ri to'ldirilgan");
 		}
@@ -42,10 +45,10 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 		setLoading(true);
 		try {
 			await axios.post(
-				`${baseURL}/teachers/`,
+				`${baseURL}/users/`,
 				{
 					first_name: firstName,
-					last_name: firstName,
+					last_name: lastName,
 					email: email,
 					status: status,
 					password: password2,
@@ -57,14 +60,16 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 					},
 				}
 			);
-			toast.success("Ustoz ma'lumotlari muvaffaqiyatli qo'shildi");
-			fetchTeachers();
-			onClose()
+			toast.success("Xodim ma'lumotlari muvaffaqiyatli saqlandi");
+			fetchStaffList();
+			onClose();
 		} catch (error) {
 			if (error.response.status === 400) {
-				toast.error("Bunday e-mail manzilga ega ustoz allaqachon mavjud");
+				toast.error(
+					"Bunday e-mail manzilga ega xodim yoki student allaqachon mavjud"
+				);
 			} else {
-				toast.error("Ustoz qo'shishda xatolik ketdi");
+				toast.error("Xodim ma'lumotlarini qo'shishda xatolik berdi");
 			}
 		}
 		setLoading(false);
@@ -79,7 +84,7 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 			<div className="flex flex-col bg-white min-w-[450px]">
 				<div>
 					<h5 className="text-xl text-center">
-						Yangi ustoz malumotlarini kiriting
+						Yangi xodim malumotlarini kiriting
 					</h5>
 					<form className="flex flex-col gap-4 mt-5">
 						<Input
@@ -103,13 +108,14 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 							type="email"
 							name="email"
 						/>
-						<Input
-							label="Xodim statusi"
-							value={status}
-							setValue={setStatus}
-							type="text"
-							name="status"
-						/>
+						{user.status === "superuser" && (
+							<DropdownInput
+								name="status"
+								value={status}
+								setValue={setStatus}
+								label="Xodim statusi"
+							/>
+						)}
 						<Input
 							label="Parol"
 							value={password1}
@@ -128,11 +134,11 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 					<div className="flex items-center justify-end mt-5 gap-1">
 						<Button
 							type="submit"
-							onClick={createTeacher}
+							onClick={createStaff}
 							disabled={loading || !formIsValid}
 							className="w-full"
 						>
-							Ustozni qoshish
+							Xodimni qoshish
 						</Button>
 					</div>
 				</div>
@@ -141,4 +147,4 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 	);
 }
 
-export default TeacherCreate;
+export default StaffCreate;

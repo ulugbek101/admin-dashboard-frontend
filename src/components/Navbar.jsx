@@ -7,6 +7,7 @@ function Navbar() {
 	const { user, logoutUser } = useContext(authContext);
 	const [profileDrowdownIsShown, setProfileDrowdownIsShown] = useState(false);
 	const dropdownMenuRef = useRef();
+	const profileImageRef = useRef();
 
 	useEffect(() => {
 		let closeDropdownMenu = e => {
@@ -31,16 +32,30 @@ function Navbar() {
 				<div className="relative flex items-center">
 					<div className="me-10">
 						<div className="flex items-center justify-center gap-2">
-							<NavLink
-								to="/subjects"
-								className={({ isActive }) =>
-									`${
-										isActive && "bg-[#f5f5f5]"
-									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
-								}
-							>
-								Fanlar
-							</NavLink>
+							{["admin", "superuser"].includes(user.status) && (
+								<>
+									<NavLink
+										to="/subjects"
+										className={({ isActive }) =>
+											`${
+												isActive && "bg-[#f5f5f5]"
+											} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
+										}
+									>
+										Fanlar
+									</NavLink>
+									<NavLink
+										to="/staffs"
+										className={({ isActive }) =>
+											`${
+												isActive && "bg-[#f5f5f5]"
+											} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
+										}
+									>
+										Xodimlar
+									</NavLink>
+								</>
+							)}
 							<NavLink
 								to="/groups"
 								className={({ isActive }) =>
@@ -52,16 +67,6 @@ function Navbar() {
 								Guruhlar
 							</NavLink>
 							<NavLink
-								to="/teachers"
-								className={({ isActive }) =>
-									`${
-										isActive && "bg-[#f5f5f5]"
-									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
-								}
-							>
-								Ustozlar
-							</NavLink>
-							<NavLink
 								to="/students"
 								className={({ isActive }) =>
 									`${
@@ -69,11 +74,12 @@ function Navbar() {
 									} text-center p-[10px] rounded-md transition hover:cursor-pointer min-h-[44px] hover:bg-[#f5f5f5]`
 								}
 							>
-								O&apos;quvchilar
+								O'quvchilar
 							</NavLink>
 						</div>
 					</div>
 					<img
+						ref={profileImageRef}
 						onClick={() => setProfileDrowdownIsShown(!profileDrowdownIsShown)}
 						src={user.profile_image ? user.profile_image : defaultUserImage}
 						alt={user.full_name}

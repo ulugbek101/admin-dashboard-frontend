@@ -2,14 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
-import TeachersPage from "./pages/TeachersPage";
+import StaffPage from "./pages/StaffPage";
 
 function App() {
 	return (
 		<Routes>
 			<Route element={<RootLayout />}>
 				<Route path="/" element={<ProfilePage />} exact />
-				<Route path="/teachers" element={<TeachersPage />} />
+				<Route path="/staffs" element={<StaffPage />} />
 			</Route>
 			<Route path="/login" element={<LoginPage />} />
 		</Routes>

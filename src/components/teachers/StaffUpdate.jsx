@@ -8,12 +8,12 @@ import CloseButton from "../UI/CloseButton";
 import Input from "../UI/Input";
 import ModalWindow from "../UI/ModalWindow";
 
-function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
+function StaffUpdate({ fetchStaffList, onClose, updatingStaff }) {
 	const { authTokens } = useContext(authContext);
-	const [firstName, setFirstName] = useState(updatingTeacher.firstName);
-	const [lastName, setLastName] = useState(updatingTeacher.lastName);
-	const [email, setEmail] = useState(updatingTeacher.email);
-	const [status, setStatus] = useState(updatingTeacher.status);
+	const [firstName, setFirstName] = useState(updatingStaff.firstName);
+	const [lastName, setLastName] = useState(updatingStaff.lastName);
+	const [email, setEmail] = useState(updatingStaff.email);
+	const [status, setStatus] = useState(updatingStaff.status);
 	const [password1, setPassword1] = useState("");
 	const [password2, setPassword2] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 		}
 	}, [firstName, lastName, email, password1, password2]);
 
-	const updateTeacher = async () => {
+	const updateStaff = async () => {
 		const formData = {
 			first_name: firstName,
 			last_name: lastName,
@@ -47,7 +47,7 @@ function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 		setLoading(true);
 		try {
 			await axios.patch(
-				`${baseURL}/teachers/${updatingTeacher.id}/`,
+				`${baseURL}/users/${updatingStaff.id}/`,
 				formData,
 				{
 					headers: {
@@ -56,11 +56,11 @@ function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 					},
 				}
 			);
-			fetchTeachers();
+			fetchStaffList();
 			onClose();
-			toast.success("O'qituvchi ma'lumotlari yangilandi");
+			toast.success("Xodim ma'lumotlari yangilandi");
 		} catch (error) {
-			toast.error("O'qituvchi ma'lumotlarini yangilashda xatolik yuz berdi");
+			toast.error("Xodim ma'lumotlarini yangilashda xatolik yuz berdi");
 		}
 		setLoading(false);
 	};
@@ -74,7 +74,7 @@ function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 			<div className="flex flex-col bg-white min-w-[450px]">
 				<div>
 					<h5 className="text-xl text-center">
-						Yangi ustoz ma'lumotlarini o'zgartirish
+						Xodim ma'lumotlarini o'zgartirish
 					</h5>
 					<form className="flex flex-col gap-4 mt-5">
 						<Input
@@ -119,7 +119,7 @@ function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 							type="password"
 							name="password2"
 						/>
-						<Button disabled={loading || !formIsValid} onClick={updateTeacher}>
+						<Button disabled={loading || !formIsValid} onClick={updateStaff}>
 							O'qituvchi ma'lumotlarini yangilash
 						</Button>
 					</form>
@@ -129,4 +129,4 @@ function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 	);
 }
 
-export default TeacherUpdate;
+export default StaffUpdate;
