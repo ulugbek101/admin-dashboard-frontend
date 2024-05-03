@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { authContext } from "../context/auth-context";
-import inputStyles from "../styles/Input.module.css";
 import Button from "../components/UI/Button";
+import Card from "../components/UI/Card";
+import Input from "../components/UI/Input";
+import { authContext } from "../context/auth-context";
 
 function ProfilePage() {
 	const { user, updateUser } = useContext(authContext);
@@ -61,13 +62,13 @@ function ProfilePage() {
 
 	return (
 		<>
-			<div className="mb-[16px] p-10 bg-[#f5f5f5] rounded-3xl flex flex-row items-center gap-[28px]">
+			<Card className="flex flex-row items-center gap-[28px] mb-[16px]">
 				<label
 					htmlFor="profile_image"
-					className="relative group hover:cursor-pointer"
+					className="relative group hover:cursor-pointer w-max"
 				>
 					<img
-						src="https://avatars.githubusercontent.com/u/94630185?v=4"
+						src={user.profile_image}
 						alt={`${user.first_name} ${user.last_name}`}
 						className="w-[100px] rounded-full"
 					/>
@@ -82,9 +83,9 @@ function ProfilePage() {
 					</div>
 					<span className="text-[18px] text-[#666]">{user.email}</span>
 				</div>
-			</div>
+			</Card>
 
-			<div className="p-10 bg-[#f5f5f5] rounded-3xl flex flex-row justify-between items-start gap-[50px] mb-[16px]">
+			<Card className="flex flex-row justify-between items-start gap-[50px] mb-[16px]">
 				<div className="flex items-center gap-[16px]">
 					<div className="rounded-full w-[40px] h-[40px] bg-[#0387ff] flex items-center justify-center">
 						<span className="material-icons text-white text-[18px]">
@@ -98,78 +99,36 @@ function ProfilePage() {
 						className="flex flex-col h-[100%] gap-4 justify-between min-w-[500px]"
 						onSubmit={updateUserInformation}
 					>
-						<div className={inputStyles.inputGroup}>
-							<input
-								value={firstName}
-								onChange={e => setFirstName(e.target.value)}
-								type="text"
-								name="first_name"
-								id="first_name"
-								placeholder=""
-								className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
-								required
-							/>
-							<label
-								htmlFor="first_name"
-								className="text-[#666] hover:cursor-text"
-							>
-								Ism
-							</label>
-						</div>
-						<div className={inputStyles.inputGroup}>
-							<input
-								value={lastName}
-								onChange={e => setLastName(e.target.value)}
-								type="text"
-								name="last_name"
-								id="last_name"
-								placeholder=""
-								className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
-								required
-							/>
-							<label
-								htmlFor="last_name"
-								className="text-[#666] hover:cursor-text"
-							>
-								Familiya
-							</label>
-						</div>
-						<div className={inputStyles.inputGroup}>
-							<input
-								value={email}
-								onChange={e => setEmail(e.target.value)}
-								type="email"
-								name="email"
-								id="email"
-								placeholder=""
-								className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
-								required
-							/>
-							<label htmlFor="email" className="text-[#666] hover:cursor-text">
-								E-mail manzil
-							</label>
-						</div>
-						{/* <input
-							className="opacity-0"
-							type="file"
-							name="profile_image"
-							id="profile_image"
-							onChange={handleFileChange}
-							value={userImage}
-						/> */}
+						<Input
+							label="Ism"
+							value={firstName}
+							setValue={setFirstName}
+							type="text"
+							name="first_name"
+						/>
+						<Input
+							label="Familiya"
+							value={lastName}
+							setValue={setLastName}
+							type="text"
+							name="last_name"
+						/>
+						<Input
+							label="E-mail manzil"
+							value={email}
+							setValue={setEmail}
+							name="email"
+							type="email"
+						/>
 
-						<Button
-							disabled={!formIsValid}
-							type="submit"
-							className="w-max"
-						>
+						<Button disabled={!formIsValid} type="submit" className="w-max">
 							Saqlash
 						</Button>
 					</form>
 				</div>
-			</div>
+			</Card>
 
-			<div className="p-10 bg-[#f5f5f5] rounded-3xl flex flex-row justify-between items-start gap-[50px] mb-24">
+			<Card className="flex flex-row justify-between items-start gap-[50px] mb-24">
 				<div className="flex items-center gap-[16px]">
 					<div className="rounded-full w-[40px] h-[40px] bg-[#666] flex items-center justify-center">
 						<span className="material-icons text-white text-[18px]">lock</span>
@@ -182,42 +141,20 @@ function ProfilePage() {
 						className="flex flex-col h-[100%] gap-4 justify-between min-w-[500px]"
 						onSubmit={updateUserPassword}
 					>
-						<div className={inputStyles.inputGroup}>
-							<input
-								value={password1}
-								onChange={e => setPassword1(e.target.value)}
-								type="password"
-								name="password1"
-								id="password1"
-								placeholder=""
-								className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
-								required
-							/>
-							<label
-								htmlFor="password1"
-								className="text-[#666] hover:cursor-text"
-							>
-								Parol
-							</label>
-						</div>
-						<div className={inputStyles.inputGroup}>
-							<input
-								value={password2}
-								onChange={e => setPassword2(e.target.value)}
-								type="password"
-								name="password2"
-								id="password2"
-								placeholder=""
-								className="w-full transition-colors duration-300 border rounded-[10px] border-[#e0e0e0] focus:border-[#b8b8b8] hover:border-[#b8b8b8] focus:outline-0"
-								required
-							/>
-							<label
-								htmlFor="password2"
-								className="text-[#666] hover:cursor-text"
-							>
-								Parolni tasdiqlang
-							</label>
-						</div>
+						<Input
+							label="Parol"
+							value={password1}
+							setValue={setPassword1}
+							type="password"
+							name="password1"
+						/>
+						<Input
+							label="Parolni tasdiqlang"
+							value={password2}
+							setValue={setPassword2}
+							type="password"
+							name="password2"
+						/>
 						<Button
 							disabled={!passwordsAreValid}
 							className="w-max"
@@ -227,7 +164,7 @@ function ProfilePage() {
 						</Button>
 					</form>
 				</div>
-			</div>
+			</Card>
 		</>
 	);
 }

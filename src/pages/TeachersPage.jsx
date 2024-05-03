@@ -2,8 +2,10 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Button from "../components/UI/Button";
+import Card from "../components/UI/Card";
 import TeacherCreate from "../components/teachers/TeacherCreate";
 import TeacherDelete from "../components/teachers/TeacherDelete";
+import TeacherUpdate from "../components/teachers/TeacherUpdate";
 import TeachersList from "../components/teachers/TeachersList";
 import { authContext } from "../context/auth-context";
 import { baseURL } from "../utils/urls";
@@ -12,9 +14,12 @@ function TeachersPage() {
 	const { authTokens } = useContext(authContext);
 	const [teachers, setTeachers] = useState([]);
 	const [deletingTeacher, setDeletingTeacher] = useState(null);
+	const [updatingTeacher, setUpdatingTeacher] = useState(null);
 	const [deleteTeacherModalIsOpen, setDeleteTeacherModalIsOpen] =
 		useState(false);
 	const [createTeacherModalIsOpen, setCreateTeacherModalIsOpen] =
+		useState(false);
+	const [updateTeacherModalIsOpen, setUpdateTeacherModalIsIsOpen] =
 		useState(false);
 
 	useEffect(() => {
@@ -44,33 +49,36 @@ function TeachersPage() {
 					onClick={setCreateTeacherModalIsOpen.bind(null, true)}
 					disabled={false}
 				>
-					Ustoz qo&apos;shish
+					Ustoz qo'shish
 				</Button>
 			</div>
-			<div className="col-span-12 shadow-xl bg-white rounded-xl p-5">
+			<Card className="col-span-12 shadow-xl bg-white">
 				<table className="w-full">
 					<thead>
 						<tr className="grid grid-cols-12 py-3 border-b-[1px] border-[#e0e0e0] mb-5">
 							<th className="col-span-1 text-start px-2">#</th>
-							<th className="col-span-4 text-start px-2">F.I.Sh</th>
+							<th className="col-span-3 text-start px-2">F.I.Sh</th>
 							<th className="col-span-3 text-start px-2">E-mail</th>
+							<th className="col-span-2 text-start px-2">Xodim statusi</th>
 							<th className="col-span-2 text-start px-2">
-								Qo&apos;shilgan sana
+								Qo'shilgan sana
 							</th>
-							<th className="col-span-2"></th>
+							<th className="col-span-1"></th>
 						</tr>
 					</thead>
 					<tbody className="flex flex-col gap-2">
 						{teachers && (
 							<TeachersList
 								setDeletingTeacher={setDeletingTeacher}
-								setModalIsOpen={setDeleteTeacherModalIsOpen}
+								setUpdatingTeacher={setUpdatingTeacher}
+								setDeleteTeacherModalIsOpen={setDeleteTeacherModalIsOpen}
+								setUpdateTeacherModalIsOpen={setUpdateTeacherModalIsIsOpen}
 								teachers={teachers}
 							/>
 						)}
 					</tbody>
 				</table>
-			</div>
+			</Card>
 			{deleteTeacherModalIsOpen && (
 				<TeacherDelete
 					onClose={setDeleteTeacherModalIsOpen.bind(null, false)}
@@ -80,7 +88,15 @@ function TeachersPage() {
 			)}
 			{createTeacherModalIsOpen && (
 				<TeacherCreate
+					fetchTeachers={fetchTeachers}
 					onClose={setCreateTeacherModalIsOpen.bind(null, false)}
+				/>
+			)}
+			{updateTeacherModalIsOpen && (
+				<TeacherUpdate
+					updatingTeacher={updatingTeacher}
+					fetchTeachers={fetchTeachers}
+					onClose={setUpdateTeacherModalIsIsOpen.bind(null, false)}
 				/>
 			)}
 		</div>

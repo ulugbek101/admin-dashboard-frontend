@@ -8,48 +8,47 @@ import CloseButton from "../UI/CloseButton";
 import Input from "../UI/Input";
 import ModalWindow from "../UI/ModalWindow";
 
-function TeacherCreate({ onClose, fetchTeachers }) {
+function TeacherUpdate({ fetchTeachers, onClose, updatingTeacher }) {
 	const { authTokens } = useContext(authContext);
-	const [loading, setLoading] = useState(false);
-	const [formIsValid, setFormIsValid] = useState(false);
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [email, setEmail] = useState("");
-	const [status, setStatus] = useState("");
+	const [firstName, setFirstName] = useState(updatingTeacher.firstName);
+	const [lastName, setLastName] = useState(updatingTeacher.lastName);
+	const [email, setEmail] = useState(updatingTeacher.email);
+	const [status, setStatus] = useState(updatingTeacher.status);
 	const [password1, setPassword1] = useState("");
 	const [password2, setPassword2] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [formIsValid, setFormIsValid] = useState(true);
 
 	useEffect(() => {
-		if (
-			!firstName.trim() ||
-			!lastName.trim() ||
-			!email.trim() ||
-			!password1 ||
-			!password2 ||
-			password1 !== password2
-		) {
-			setFormIsValid(false);
-		} else {
-			setFormIsValid(true);
-		}
-	}, [firstName, lastName, email, status, password1, password2]);
+		setFormIsValid(firstName.trim() && lastName.trim() && /^[^\s@]+@(?:email|gmail|bk)\.(?:ru|com)$/i.test(email.trim()) && status.trim());
 
-	const createTeacher = async () => {
-		if (!formIsValid) {
-			toast.warning("Forma ma'lumotlari noto'g'ri to'ldirilgan");
+		if (password1.trim() && password2.trim()) {
+			setFormIsValid(
+				firstName.trim() &&
+					lastName.trim() &&
+					/^[^\s@]+@(?:email|gmail|bk)\.(?:ru|com)$/i.test(email.trim()),
+				status.trim() && password1 === password2
+			);
+		}
+	}, [firstName, lastName, email, password1, password2]);
+
+	const updateTeacher = async () => {
+		const formData = {
+			first_name: firstName,
+			last_name: lastName,
+			email,
+			status,
+		};
+
+		if (password1.trim() && password2.trim() && password1 === password2) {
+			formData.password = password2;
 		}
 
 		setLoading(true);
 		try {
-			await axios.post(
-				`${baseURL}/teachers/`,
-				{
-					first_name: firstName,
-					last_name: firstName,
-					email: email,
-					status: status,
-					password: password2,
-				},
+			await axios.patch(
+				`${baseURL}/teachers/${updatingTeacher.id}/`,
+				formData,
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -57,15 +56,11 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 					},
 				}
 			);
-			toast.success("Ustoz ma'lumotlari muvaffaqiyatli qo'shildi");
 			fetchTeachers();
-			onClose()
+			onClose();
+			toast.success("O'qituvchi ma'lumotlari yangilandi");
 		} catch (error) {
-			if (error.response.status === 400) {
-				toast.error("Bunday e-mail manzilga ega ustoz allaqachon mavjud");
-			} else {
-				toast.error("Ustoz qo'shishda xatolik ketdi");
-			}
+			toast.error("O'qituvchi ma'lumotlarini yangilashda xatolik yuz berdi");
 		}
 		setLoading(false);
 	};
@@ -79,7 +74,7 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 			<div className="flex flex-col bg-white min-w-[450px]">
 				<div>
 					<h5 className="text-xl text-center">
-						Yangi ustoz malumotlarini kiriting
+						Yangi ustoz ma'lumotlarini o'zgartirish
 					</h5>
 					<form className="flex flex-col gap-4 mt-5">
 						<Input
@@ -124,21 +119,14 @@ function TeacherCreate({ onClose, fetchTeachers }) {
 							type="password"
 							name="password2"
 						/>
-					</form>
-					<div className="flex items-center justify-end mt-5 gap-1">
-						<Button
-							type="submit"
-							onClick={createTeacher}
-							disabled={loading || !formIsValid}
-							className="w-full"
-						>
-							Ustozni qoshish
+						<Button disabled={loading || !formIsValid} onClick={updateTeacher}>
+							O'qituvchi ma'lumotlarini yangilash
 						</Button>
-					</div>
+					</form>
 				</div>
 			</div>
 		</ModalWindow>
 	);
 }
 
-export default TeacherCreate;
+export default TeacherUpdate;
