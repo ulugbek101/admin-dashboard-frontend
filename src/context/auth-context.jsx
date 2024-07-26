@@ -49,7 +49,7 @@ const AuthContextProvider = ({ children }) => {
 		setIsLoading(false);
 	};
 	const updateUser = async (first_name, last_name, email, password) => {
-		const route = "teachers";
+		const route = "users";
 		const formData = { first_name, last_name, email };
 		const successMessage = password
 			? "Parol muvaffaqiyatli yangilandi"

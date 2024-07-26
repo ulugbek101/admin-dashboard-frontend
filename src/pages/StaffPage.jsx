@@ -45,6 +45,7 @@ function StaffPage() {
 			<div className="flex items-center justify-between col-span-12 row-span-2">
 				<h4 className="text-[2rem] font-bold">Barcha xodimlar</h4>
 				<Button
+					className="active:scale-95"
 					onClick={setCreateStaffModalIsOpen.bind(null, true)}
 					disabled={false}
 				>

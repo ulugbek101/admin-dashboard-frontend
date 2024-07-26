@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { authContext } from "../../context/auth-context";
 import { stringifyDate } from "../../utils/date";
 import { getStatus } from "../../utils/get-status";
@@ -12,8 +12,29 @@ function StaffObject({
 	index,
 }) {
 	const { user } = useContext(authContext);
+	const [moreButtonIsClicked, setMoreButtonIsClicked] = useState(false);
+	const moreButtonRef = useRef();
 
-	return  (
+	function handleMoreButtonClick(e) {
+		setMoreButtonIsClicked(!moreButtonIsClicked);
+
+		if (moreButtonIsClicked) return;
+
+		let moreButtons = Array.from(document.getElementsByClassName("moreButton"));
+		moreButtons = moreButtons.filter(
+			element => element != e.target.parentElement.querySelector(".moreButton")
+		);
+
+		e.target.parentElement.querySelector(".moreButton").classList.add("flex");
+		e.target.parentElement
+			.querySelector(".moreButton")
+			.classList.remove("hidden");
+
+		moreButtons.forEach(element => element.classList.add("hidden"));
+		moreButtons.forEach(element => element.classList.remove("flex"));
+	}
+
+	return (
 		<tr
 			className={`${
 				user.id === staff.id && "bg-[#f5f5f5]"
@@ -38,11 +59,19 @@ function StaffObject({
 				<>
 					{user.status === "admin" && staff.status === "admin" ? null : (
 						<td className="col-span-1 flex justify-end w-full px-2">
-							<div className="relative group">
-								<span className="material-icons p-2 hover:bg-[#e0e0e0] active:scale-90 rounded transition select-none">
+							<div className="relative">
+								<span
+									onClick={handleMoreButtonClick}
+									className="material-icons p-2 hover:bg-[#e0e0e0] active:scale-90 rounded transition select-none"
+								>
 									more_vert
 								</span>
-								<div className="absolute hidden group-hover:flex flex-col gap-1 top-[100%] right-0 rounded p-2 bg-white z-10 shadow-lg">
+								<div
+									ref={moreButtonRef}
+									className={`${
+										moreButtonIsClicked ? "flex" : "hidden"
+									} moreButton absolute flex-col gap-1 top-[100%] right-0 rounded p-2 bg-white z-10 shadow-lg`}
+								>
 									<button
 										onClick={() => {
 											setUpdateStaffModalIsOpen(true);

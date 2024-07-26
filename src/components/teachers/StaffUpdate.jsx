@@ -1,12 +1,13 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { authContext } from "../../context/auth-context";
-import { baseURL } from "../../utils/urls";
-import Button from "../UI/Button";
-import CloseButton from "../UI/CloseButton";
-import Input from "../UI/Input";
-import ModalWindow from "../UI/ModalWindow";
+import axios from "axios"
+import { useContext, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { authContext } from "../../context/auth-context"
+import { baseURL } from "../../utils/urls"
+import Button from "../UI/Button"
+import CloseButton from "../UI/CloseButton"
+import DropdownInput from "../UI/DropdownInput"
+import Input from "../UI/Input"
+import ModalWindow from "../UI/ModalWindow"
 
 function StaffUpdate({ fetchStaffList, onClose, updatingStaff }) {
 	const { authTokens } = useContext(authContext);
@@ -18,6 +19,10 @@ function StaffUpdate({ fetchStaffList, onClose, updatingStaff }) {
 	const [password2, setPassword2] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [formIsValid, setFormIsValid] = useState(true);
+	const staffStatusesOptions = [
+		{ value: "teacher", text: "Ustoz", selected: true },
+		{ value: "admin", text: "Administrator", selected: false },
+	];
 
 	useEffect(() => {
 		setFormIsValid(firstName.trim() && lastName.trim() && /^[^\s@]+@(?:email|gmail|bk)\.(?:ru|com)$/i.test(email.trim()) && status.trim());
@@ -98,12 +103,12 @@ function StaffUpdate({ fetchStaffList, onClose, updatingStaff }) {
 							type="email"
 							name="email"
 						/>
-						<Input
+						<DropdownInput
 							label="Xodim statusi"
 							value={status}
 							setValue={setStatus}
-							type="text"
 							name="status"
+							options={staffStatusesOptions}
 						/>
 						<Input
 							label="Parol"

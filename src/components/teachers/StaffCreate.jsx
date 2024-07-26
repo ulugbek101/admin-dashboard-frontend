@@ -12,12 +12,18 @@ import ModalWindow from "../UI/ModalWindow";
 function StaffCreate({ onClose, fetchStaffList }) {
 	const { authTokens, user } = useContext(authContext);
 	const [loading, setLoading] = useState(false);
+	const staffStatusesOptions = [
+		{ value: "teacher", text: "Ustoz", selected: true },
+		{ value: "admin", text: "Administrator", selected: false },
+	];
 	const [formIsValid, setFormIsValid] = useState(false);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [status, setStatus] = useState(
-		user.status === "superuser" ? "" : "teacher"
+		staffStatusesOptions.find(option => option.selected === true)
+			? staffStatusesOptions.find(option => option.selected === true).value
+			: ""
 	);
 	const [password1, setPassword1] = useState("");
 	const [password2, setPassword2] = useState("");
@@ -29,6 +35,7 @@ function StaffCreate({ onClose, fetchStaffList }) {
 			!email.trim() ||
 			!password1 ||
 			!password2 ||
+			!status ||
 			password1 !== password2
 		) {
 			setFormIsValid(false);
@@ -80,7 +87,6 @@ function StaffCreate({ onClose, fetchStaffList }) {
 			<div className="flex justify-end">
 				<CloseButton onClose={onClose} />
 			</div>
-			<hr className="my-2" />
 			<div className="flex flex-col bg-white min-w-[450px]">
 				<div>
 					<h5 className="text-xl text-center">
@@ -114,6 +120,7 @@ function StaffCreate({ onClose, fetchStaffList }) {
 								value={status}
 								setValue={setStatus}
 								label="Xodim statusi"
+								options={staffStatusesOptions}
 							/>
 						)}
 						<Input
