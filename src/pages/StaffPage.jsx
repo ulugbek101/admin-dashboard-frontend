@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../components/UI/Button";
 import Card from "../components/UI/Card";
+import Input from "../components/UI/Input";
 import StaffCreate from "../components/teachers/StaffCreate";
 import StaffDelete from "../components/teachers/StaffDelete";
 import StaffObject from "../components/teachers/StaffObject";
@@ -20,12 +21,31 @@ function StaffPage() {
 	const [deleteStaffModalIsOpen, setDeleteStaffModalIsOpen] = useState(false);
 	const [createStaffModalIsOpen, setCreateStaffModalIsOpen] = useState(false);
 	const [updateStaffModalIsOpen, setUpdateStaffModalIsOpen] = useState(false);
+	const [staff, setStaff] = useState("");
 
 	useEffect(() => {
 		if (!["admin", "superuser"].includes(user.status)) navigate("/");
 
+		const closeMoreButton = document.addEventListener("keydown", () => {
+			const moreButtons = Array.from(
+				document.getElementsByClassName("moreButton")
+			);
+			moreButtons.forEach(element => {
+				element.classList.add("hidden");
+				element.classList.remove("flex");
+			});
+		});
+
 		fetchStaffList();
+
+		return document.removeEventListener("keydown", closeMoreButton);
 	}, []);
+
+	// function searchStaff() {
+	// 	staffList(prevList =>
+	// 		prevList.filter(staffElement => staffElement.includes(staff))
+	// 	);
+	// }
 
 	const fetchStaffList = async () => {
 		try {
@@ -44,13 +64,35 @@ function StaffPage() {
 		<div className="grid grid-cols-12 gap-8">
 			<div className="flex items-center justify-between col-span-12 row-span-2">
 				<h4 className="text-[2rem] font-bold">Barcha xodimlar</h4>
-				<Button
-					className="active:scale-95"
-					onClick={setCreateStaffModalIsOpen.bind(null, true)}
-					disabled={false}
-				>
-					Xodim qo'shish
-				</Button>
+				<div className="flex items-center gap-2">
+					<div className="relative">
+						<Input
+							className="pt-[18px] px-[18px] pb-[4px] pr-12"
+							label="Xodimni qidirish"
+							name="staff_search"
+							type="text"
+							value={staff}
+							setValue={setStaff}
+						/>
+						<span
+							onClick={() => {
+								setStaff("");
+							}}
+							className={`${
+								!staff && "hidden "
+							} material-icons text-[#666] absolute top-1/2 right-[10px] -translate-y-1/2 cursor-pointer`}
+						>
+							close
+						</span>
+					</div>
+					<Button
+						className="active:scale-95"
+						onClick={setCreateStaffModalIsOpen.bind(null, true)}
+						disabled={false}
+					>
+						Xodim qo'shish
+					</Button>
+				</div>
 			</div>
 			<Card className="col-span-12 shadow-xl bg-white max-h-[65vh] overflow-auto">
 				<table className="w-full">
@@ -66,17 +108,30 @@ function StaffPage() {
 					</thead>
 					<tbody className="flex flex-col gap-2">
 						{staffList &&
-							staffList.map((staff, index) => (
-								<StaffObject
-									key={index}
-									index={index}
-									staff={staff}
-									setDeletingStaff={setDeletingStaff}
-									setUpdatingStaff={setUpdatingStaff}
-									setDeleteStaffModalIsOpen={setDeleteStaffModalIsOpen}
-									setUpdateStaffModalIsOpen={setUpdateStaffModalIsOpen}
-								/>
-							))}
+							staffList
+								.filter(
+									staffItem =>
+										staffItem.first_name
+											.toLowerCase()
+											.includes(staff.toLocaleLowerCase().trim()) ||
+										staffItem.last_name
+											.toLowerCase()
+											.includes(staff.toLocaleLowerCase().trim()) ||
+										staffItem.email
+											.toLowerCase()
+											.includes(staff.toLocaleLowerCase().trim())
+								)
+								.map((staff, index) => (
+									<StaffObject
+										key={index}
+										index={index}
+										staff={staff}
+										setDeletingStaff={setDeletingStaff}
+										setUpdatingStaff={setUpdatingStaff}
+										setDeleteStaffModalIsOpen={setDeleteStaffModalIsOpen}
+										setUpdateStaffModalIsOpen={setUpdateStaffModalIsOpen}
+									/>
+								))}
 					</tbody>
 				</table>
 			</Card>

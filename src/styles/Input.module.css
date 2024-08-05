@@ -1,9 +1,6 @@
 .inputGroup {
 	position: relative;
 }
-.inputGroup input {
-	padding: 23px 18px 10px;
-}
 
 .inputGroup select {
 	padding: 23px 12px 10px;
@@ -17,8 +14,10 @@
 	transition: 0.2s;
 }
 
-.inputGroup input:focus ~ label, .inputGroup select:focus ~ label,
-.inputGroup input:not(:placeholder-shown) ~ label, .inputGroup select:not(:placeholder-shown) ~ label {
+.inputGroup input:focus ~ label,
+.inputGroup select:focus ~ label,
+.inputGroup input:not(:placeholder-shown) ~ label,
+.inputGroup select:not(:placeholder-shown) ~ label {
 	top: 16px;
 	left: 1.2rem;
 	font-size: 11px;
