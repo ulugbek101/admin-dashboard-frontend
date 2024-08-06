@@ -41,12 +41,6 @@ function StaffPage() {
 		return document.removeEventListener("keydown", closeMoreButton);
 	}, []);
 
-	// function searchStaff() {
-	// 	staffList(prevList =>
-	// 		prevList.filter(staffElement => staffElement.includes(staff))
-	// 	);
-	// }
-
 	const fetchStaffList = async () => {
 		try {
 			const response = await axios.get(`${baseURL}/users/`, {
@@ -68,7 +62,7 @@ function StaffPage() {
 					<div className="relative">
 						<Input
 							className="pt-[18px] px-[18px] pb-[4px] pr-12"
-							label="Xodimni qidirish"
+							label="Xodim qidirish"
 							name="staff_search"
 							type="text"
 							value={staff}
